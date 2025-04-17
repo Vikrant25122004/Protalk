@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SurveyorRepository extends MongoRepository<Surveyors, ObjectId> {
-    Surveyors findByusername( String username);
+    Surveyors findByUsername( String username);
 }
