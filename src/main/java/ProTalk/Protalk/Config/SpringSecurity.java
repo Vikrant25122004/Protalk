@@ -1,5 +1,6 @@
 package ProTalk.Protalk.Config;
 
+import ProTalk.Protalk.Filter.JwtFilter;
 import ProTalk.Protalk.Services.SurveyorDetailsimpl;
 import org.apache.coyote.http11.AbstractHttp11JsseProtocol;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +16,24 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
 public class SpringSecurity {
     @Autowired
     private SurveyorDetailsimpl surveyorDetailsimpl;
+    @Autowired
+    private JwtFilter jwtFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/Suveyor").authenticated()
+                        .requestMatchers("/Surveyor/**").authenticated()
                         .anyRequest().permitAll()
-                ).build();
+                )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
@@ -35,9 +41,7 @@ public class SpringSecurity {
     }
     @Bean
     public PasswordEncoder passwordEncoder(){
-
         return new BCryptPasswordEncoder();
-
     }
     @Bean
     public DaoAuthenticationProvider customerAuthenticationProvider(){

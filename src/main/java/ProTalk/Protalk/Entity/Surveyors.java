@@ -17,6 +17,5 @@ public class Surveyors {
     private String username;
     @NonNull
     private String password;
-    @NonNull
     private String Email;
 }

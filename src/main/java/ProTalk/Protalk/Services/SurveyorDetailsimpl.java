@@ -16,7 +16,7 @@ public class SurveyorDetailsimpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Surveyors surveyors = surveyorRepository.findByUsername(username);
+        Surveyors surveyors = surveyorRepository.findByusername(username);
         if (surveyors!= null){
             UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                     .username(username)
