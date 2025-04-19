@@ -55,8 +55,8 @@ public class Public {
     @PostMapping("/forgot/{username}")
     public ResponseEntity<?> forgotpassword(@PathVariable String username,@RequestBody String password) throws JsonProcessingException {
         Surveyors surveyors = surveyorServices.getSurveyor(username);
-
-
+        surveyorServices.forgotpassword(surveyors,password);
+        return new ResponseEntity<>("password reset successfully",HttpStatus.CREATED);
     }
 
 }
